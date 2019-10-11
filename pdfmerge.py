@@ -1,7 +1,8 @@
-# Import sys for args
+# Standard libraries
 import sys
 
 # Import pikepdf for manipulating PDFs
+import pikepdf
 from pikepdf import Pdf
 
 # Import PyQt5 for GUI Components
