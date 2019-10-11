@@ -61,14 +61,26 @@ class MainWindow(QMainWindow):
 
 				self.statusbar.showMessage("Combining...")
 
-				pdf = Pdf.new()	
+				output = Pdf.new()	
 
 				# Combine PDFs
 				for i in range(0, self.lstFiles.count()):
-					pdf.pages.extend(Pdf.open(self.lstFiles.item(i).text()).pages)
+					
+					filename = self.lstFiles.item(i).text()
+					
+					try:
+						with Pdf.open(filename) as pdf:
+							output.pages.extend(pdf.pages)
+
+					except PasswordError:
+						print("Password Error")
+
+					except:
+						print("Error")
+
 
 				# Save file
-				pdf.save(outfile)
+				output.save(outfile)
 
 				# Clear files from list
 				self.clearFilesFromList()
