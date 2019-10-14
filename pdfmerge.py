@@ -1,5 +1,6 @@
 # Standard libraries
 import sys
+import os
 
 # Import pikepdf for manipulating PDFs
 import pikepdf
@@ -61,31 +62,32 @@ class MainWindow(QMainWindow):
 
 				self.statusbar.showMessage("Combining...")
 
-				output = Pdf.new()	
+				output = Pdf.new()
 
-				# Combine PDFs
-				for i in range(0, self.lstFiles.count()):
+				try:
+
+					# Combine PDFs
+					for i in range(0, self.lstFiles.count()):
 					
-					filename = self.lstFiles.item(i).text()
+						filename = self.lstFiles.item(i).text()
 					
-					try:
+					
 						with Pdf.open(filename) as pdf:
 							output.pages.extend(pdf.pages)
 
-					except PasswordError:
-						print("Password Error")
 
-					except:
-						print("Error")
+					# Save file
+					output.save(outfile)
+
+					# Clear files from list
+					self.clearFilesFromList()
+
+					self.statusbar.showMessage("Success. Saved file %s" % (outfile))
 
 
-				# Save file
-				output.save(outfile)
-
-				# Clear files from list
-				self.clearFilesFromList()
-
-				self.statusbar.showMessage("Success. Saved file %s" % (outfile))
+				except:
+					self.statusbar.showMessage("Error processing '%s'" % (os.path.basename(filename)))
+					output.close()
 
 
 	# Clear all files from the listbox
