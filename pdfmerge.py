@@ -10,28 +10,32 @@ from pikepdf import Pdf
 from PyQt5 import uic
 from PyQt5.QtWidgets import QInputDialog, QLineEdit, QFileDialog, QMainWindow, QApplication
 
+from mainwindow import Ui_MainWindow
 
 class MainWindow(QMainWindow):
 
 	def __init__(self, *args, **kwargs):
 		
-		super().__init__(*args, **kwargs)
-		uic.loadUi("mainwindow.ui", self)
+		super(MainWindow, self).__init__(*args, **kwargs)
+		#uic.loadUi("mainwindow.ui", self)
 
-		self.btnAdd.clicked.connect(self.openFileNamesDialog)
-		self.btnRemove.clicked.connect(self.removeFilesFromList)
-		self.btnCombine.clicked.connect(self.mergeFiles)
+		self.ui = Ui_MainWindow()
+		self.ui.setupUi(self)
+
+		self.ui.btnAdd.clicked.connect(self.openFileNamesDialog)
+		self.ui.btnRemove.clicked.connect(self.removeFilesFromList)
+		self.ui.btnCombine.clicked.connect(self.mergeFiles)
 
 	# Open the File Browser for opening multiple files
 	def openFileNamesDialog(self):
 		
-		self.statusbar.showMessage("")
+		self.ui.statusbar.showMessage("")
 
 		options = QFileDialog.Options()
 		
 		files, _ = QFileDialog.getOpenFileNames(self, "Add PDFs", "", "PDF Files (*.pdf);;All Files (*)", options=options)
 		if files:
-			self.lstFiles.addItems(files)
+			self.ui.lstFiles.addItems(files)
 
 	# Open the File Browser for saving a file
 	def openSaveFileDialog(self):
@@ -46,30 +50,30 @@ class MainWindow(QMainWindow):
 	# Remove the selected files from the listbox
 	def removeFilesFromList(self):
 		
-		for item in self.lstFiles.selectedItems():
-			self.lstFiles.takeItem(self.lstFiles.row(item))
+		for item in self.ui.lstFiles.selectedItems():
+			self.ui.lstFiles.takeItem(self.ui.lstFiles.row(item))
 
 
 	# Merge the files in the listbox
 	def mergeFiles(self):
 		
-		if self.lstFiles.count():
+		if self.ui.lstFiles.count():
 
 			outfile = self.openSaveFileDialog()
 			
 			# Only merge the pdfs if there is an output filename
 			if outfile:
 
-				self.statusbar.showMessage("Combining...")
+				self.ui.statusbar.showMessage("Combining...")
 
 				output = Pdf.new()
 
 				try:
 
 					# Combine PDFs
-					for i in range(0, self.lstFiles.count()):
+					for i in range(0, self.ui.lstFiles.count()):
 					
-						filename = self.lstFiles.item(i).text()
+						filename = self.ui.lstFiles.item(i).text()
 					
 					
 						with Pdf.open(filename) as pdf:
@@ -82,18 +86,18 @@ class MainWindow(QMainWindow):
 					# Clear files from list
 					self.clearFilesFromList()
 
-					self.statusbar.showMessage("Success. Saved file %s" % (outfile))
+					self.ui.statusbar.showMessage("Success. Saved file '%s'" % (os.path.basename(outfile)))
 
 
 				except:
-					self.statusbar.showMessage("Error processing '%s'" % (os.path.basename(filename)))
+					self.ui.statusbar.showMessage("Error processing '%s'" % (os.path.basename(filename)))
 					output.close()
 
 
 	# Clear all files from the listbox
 	def clearFilesFromList(self):
 
-		self.lstFiles.clear()
+		self.ui.lstFiles.clear()
 
 if __name__ == "__main__":
 	
@@ -101,4 +105,4 @@ if __name__ == "__main__":
 	app = QApplication(sys.argv)
 	window = MainWindow()
 	window.show()
-	app.exec()
+	sys.exit(app.exec())
