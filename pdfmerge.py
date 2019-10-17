@@ -10,6 +10,7 @@ from pikepdf import Pdf
 from PyQt5 import uic
 from PyQt5.QtWidgets import QInputDialog, QLineEdit, QFileDialog, QMainWindow, QApplication
 
+# Import the Ui
 from mainwindow import Ui_MainWindow
 
 class MainWindow(QMainWindow):
@@ -17,7 +18,6 @@ class MainWindow(QMainWindow):
 	def __init__(self, *args, **kwargs):
 		
 		super(MainWindow, self).__init__(*args, **kwargs)
-		#uic.loadUi("mainwindow.ui", self)
 
 		self.ui = Ui_MainWindow()
 		self.ui.setupUi(self)
@@ -75,10 +75,8 @@ class MainWindow(QMainWindow):
 					
 						filename = self.ui.lstFiles.item(i).text()
 					
-					
 						with Pdf.open(filename) as pdf:
 							output.pages.extend(pdf.pages)
-
 
 					# Save file
 					output.save(outfile)
@@ -105,4 +103,4 @@ if __name__ == "__main__":
 	app = QApplication(sys.argv)
 	window = MainWindow()
 	window.show()
-	sys.exit(app.exec())
+	app.exec()
