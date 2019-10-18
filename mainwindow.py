@@ -20,7 +20,8 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(MainWindow.sizePolicy().hasHeightForWidth())
         MainWindow.setSizePolicy(sizePolicy)
         MainWindow.setMinimumSize(QtCore.QSize(483, 244))
-        icon = QtGui.QIcon('pdfmerge-icon.png')
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("pdfmerge-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setEnabled(True)
@@ -75,7 +76,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "pdfmerge-gui"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "pdfmerge"))
         self.btnAdd.setText(_translate("MainWindow", "Add"))
         self.btnRemove.setText(_translate("MainWindow", "Remove"))
         self.btnCombine.setText(_translate("MainWindow", "Combine"))

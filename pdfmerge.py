@@ -22,6 +22,7 @@ class MainWindow(QMainWindow):
 		self.ui = Ui_MainWindow()
 		self.ui.setupUi(self)
 
+		# Connect buttons to functions
 		self.ui.btnAdd.clicked.connect(self.openFileNamesDialog)
 		self.ui.btnRemove.clicked.connect(self.removeFilesFromList)
 		self.ui.btnCombine.clicked.connect(self.mergeFiles)
@@ -36,6 +37,7 @@ class MainWindow(QMainWindow):
 		files, _ = QFileDialog.getOpenFileNames(self, "Add PDFs", "", "PDF Files (*.pdf);;All Files (*)", options=options)
 		if files:
 			self.ui.lstFiles.addItems(files)
+
 
 	# Open the File Browser for saving a file
 	def openSaveFileDialog(self):
@@ -57,6 +59,8 @@ class MainWindow(QMainWindow):
 	# Merge the files in the listbox
 	def mergeFiles(self):
 		
+		# Only try to combine if files have been added to the list
+		# Allow for a single pdf to be 'combined', in this case it will just remove security if there is any
 		if self.ui.lstFiles.count():
 
 			outfile = self.openSaveFileDialog()
@@ -84,10 +88,14 @@ class MainWindow(QMainWindow):
 					# Clear files from list
 					self.clearFilesFromList()
 
+					# Update statusbar with success message
 					self.ui.statusbar.showMessage("Success. Saved file '%s'" % (os.path.basename(outfile)))
 
 
+				# If combining the PDFs fails
 				except:
+
+					# Update the statusbar with an error message with the file that caused it to fail
 					self.ui.statusbar.showMessage("Error processing '%s'" % (os.path.basename(filename)))
 					output.close()
 

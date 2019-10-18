@@ -23,11 +23,11 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>pdfmerge-gui</string>
+   <string>pdfmerge</string>
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>../../Downloads/pdfmerge-icon.svg</normaloff>../../Downloads/pdfmerge-icon.svg</iconset>
+    <normaloff>pdfmerge-icon.png</normaloff>pdfmerge-icon.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="enabled">
