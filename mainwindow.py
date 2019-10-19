@@ -1,14 +1,5 @@
-# -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'mainwindow.ui'
-#
-# Created by: PyQt5 UI code generator 5.13.1
-#
-# WARNING! All changes made in this file will be lost!
-
-
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+from DDListWidget import DDListWidget
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -23,6 +14,7 @@ class Ui_MainWindow(object):
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("pdfmerge-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
+        
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
@@ -48,8 +40,12 @@ class Ui_MainWindow(object):
         self.btnCombine = QtWidgets.QPushButton(self.layoutWidget)
         self.btnCombine.setObjectName("btnCombine")
         self.verticalLayout.addWidget(self.btnCombine)
-        self.lstFiles = QtWidgets.QListWidget(self.centralwidget)
+        
+
+        self.lstFiles = DDListWidget(self.centralwidget)
         self.lstFiles.setGeometry(QtCore.QRect(10, 10, 361, 201))
+        
+
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
