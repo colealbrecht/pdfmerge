@@ -85,10 +85,8 @@ class MainWindow(QMainWindow):
 							with Pdf.open(filename) as pdf:
 
 								oi = OutlineItem(os.path.basename(filename), page_count)
-								print("I think it is this one")
 								outline.root.append(oi)
 								page_count += len(pdf.pages)
-								print(page_count)
 								output.pages.extend(pdf.pages)
 
 
