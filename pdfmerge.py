@@ -4,7 +4,7 @@ import os
 
 # Import pikepdf for manipulating PDFs
 import pikepdf
-from pikepdf import Pdf
+from pikepdf import Pdf, OutlineItem
 
 # Import PyQt5 for GUI Components
 from PyQt5 import uic
@@ -72,15 +72,25 @@ class MainWindow(QMainWindow):
 
 				output = Pdf.new()
 
+				page_count = 0
+
 				try:
 
-					# Combine PDFs
-					for i in range(0, self.ui.lstFiles.count()):
-					
-						filename = self.ui.lstFiles.item(i).text()
-					
-						with Pdf.open(filename) as pdf:
-							output.pages.extend(pdf.pages)
+					with output.open_outline() as outline:
+						# Combine PDFs
+						for i in range(0, self.ui.lstFiles.count()):
+						
+							filename = self.ui.lstFiles.item(i).text()
+
+							with Pdf.open(filename) as pdf:
+
+								oi = OutlineItem(os.path.basename(filename), page_count)
+								print("I think it is this one")
+								outline.root.append(oi)
+								page_count += len(pdf.pages)
+								print(page_count)
+								output.pages.extend(pdf.pages)
+
 
 					# Save file
 					output.save(outfile)
