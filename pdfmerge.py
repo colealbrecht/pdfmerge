@@ -145,7 +145,7 @@ class MainWindow(QMainWindow):
 				self.clearFilesFromList()
 
 				# Update statusbar with success message
-				self.ui.statusbar.showMessage("Success. Removed security from '%d' pdfs" % (i))
+				self.ui.statusbar.showMessage("Success. Removed security from %d pdfs" % (i+1))
 
 			except:
 
