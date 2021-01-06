@@ -49,12 +49,20 @@ class Ui_MainWindow(object):
         self.btnRemove.setObjectName("btnRemove")
         self.verticalLayout.addWidget(self.btnRemove)
         
-        # Spacer between Add/Remove buttons and Combine button
+        # Spacer between Add/Remove buttons
         spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout.addItem(spacerItem)
+        
+        # Unsecure button
+        self.btnUnsecure = QtWidgets.QPushButton(self.gridLayoutWidget)
+        self.btnUnsecure.setObjectName("btnUnsecure")
+        self.verticalLayout.addWidget(self.btnUnsecure)
+
+        # Combine Button
         self.btnCombine = QtWidgets.QPushButton(self.gridLayoutWidget)
         self.btnCombine.setObjectName("btnCombine")
         self.verticalLayout.addWidget(self.btnCombine)
+        
         self.gridLayout.addLayout(self.verticalLayout, 0, 1, 1, 1)
         # </VerticalLayout>
 
@@ -90,6 +98,7 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
         MainWindow.setTabOrder(self.lstFiles, self.btnAdd)
         MainWindow.setTabOrder(self.btnAdd, self.btnRemove)
+        MainWindow.setTabOrder(self.btnRemove, self.btnUnsecure)
         MainWindow.setTabOrder(self.btnRemove, self.btnCombine)
 
     def retranslateUi(self, MainWindow):
@@ -97,4 +106,5 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "pdfmerge"))
         self.btnAdd.setText(_translate("MainWindow", "Add"))
         self.btnRemove.setText(_translate("MainWindow", "Remove"))
+        self.btnUnsecure.setText(_translate("MainWindow", "Unsecure"))
         self.btnCombine.setText(_translate("MainWindow", "Combine"))

@@ -25,6 +25,7 @@ class MainWindow(QMainWindow):
 		# Connect buttons to functions
 		self.ui.btnAdd.clicked.connect(self.openFileNamesDialog)
 		self.ui.btnRemove.clicked.connect(self.removeFilesFromList)
+		self.ui.btnUnsecure.clicked.connect(self.removeSecurityFromFiles)
 		self.ui.btnCombine.clicked.connect(self.mergeFiles)
 
 	# Open the File Browser for opening multiple files
@@ -106,6 +107,52 @@ class MainWindow(QMainWindow):
 					# Update the statusbar with an error message with the file that caused it to fail
 					self.ui.statusbar.showMessage("Error processing '%s'" % (os.path.basename(filename)))
 					output.close()
+
+	# Remove the Security settings from all files in the listbox
+	def removeSecurityFromFiles(self):
+
+		# Only try to combine if files have been added to the list
+		# Allow for a single pdf to be 'combined', in this case it will just remove security if there is any
+		if self.ui.lstFiles.count():
+
+			self.ui.statusbar.showMessage("Removing security from PDFs...")
+
+
+			try:
+
+				for i in range(0, self.ui.lstFiles.count()):
+
+					output = Pdf.new()
+
+					page_count = 0
+
+					filename = self.ui.lstFiles.item(i).text()
+
+					outfile = filename.replace(".pdf", "-UNSECURED.pdf")
+
+					with output.open_outline() as outline:
+						with Pdf.open(filename) as pdf:
+
+							oi = OutlineItem(os.path.basename(filename), page_count)
+							outline.root.append(oi)
+							page_count += len(pdf.pages)
+							output.pages.extend(pdf.pages)
+
+					# Save the file
+					output.save(outfile)
+
+				# Clear files from list
+				self.clearFilesFromList()
+
+				# Update statusbar with success message
+				self.ui.statusbar.showMessage("Success. Removed security from '%d' pdfs" % (i))
+
+			except:
+
+				# Update the statusbar with an error message with the file that caused it to fail
+				self.ui.statusbar.showMessage("Error processing '%s'" % (os.path.basename(filename)))
+				output.close()
+
 
 
 	# Clear all files from the listbox
